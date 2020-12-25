@@ -1,0 +1,7 @@
+/* 全局样式表 */
+@import url("//at.alicdn.com/t/font_2291628_iyag1terf4h.css");
+body,html,#app {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
