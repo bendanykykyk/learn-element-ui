@@ -18,6 +18,7 @@
             <el-input
               prefix-icon="iconfont icon-password"
               v-model="form.password"
+              show-password
             >
             </el-input>
           </el-form-item>
@@ -82,6 +83,9 @@ export default {
       getLoginData(this.form).then((res) => {
         if (res.meta.status === 200) {
           this.$message.success("登录成功");
+
+          //拦截下响应，把请求中的token赋到sessionStorage中保存
+          window.sessionStorage.setItem("token", res.data.token);
           this.$router.push("/main");
         } else {
           this.$message.error("账号或者密码错误");

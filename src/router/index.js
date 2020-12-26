@@ -6,6 +6,8 @@ Vue.use(VueRouter);
 //懒加载
 const Login = () => import("views/login/Login");
 const Main = () => import("views/main/Main");
+const Users = () => import("views/userList/Users");
+const Role = () => import("views/rightManager/Role");
 const routes = [
   {
     path: "/",
@@ -20,6 +22,11 @@ const routes = [
     path: "/main",
     name: "Main",
     component: Main,
+    redirect: "/users",
+    children: [
+      { path: "/users", name: Users, component: Users },
+      { path: "/roles", name: Role, component: Role },
+    ],
   },
 ];
 
@@ -36,5 +43,12 @@ router.beforeEach((to, from, next) => {
     ? next()
     : next("/login");
 });
+
+// const originalPush = VueRouter.prototype.push;
+// VueRouter.prototype.push = function push(location, onResolve, onReject) {
+//   if (onResolve || onReject)
+//     return originalPush.call(this, location, onResolve, onReject);
+//   return originalPush.call(this, location).catch((err) => err);
+// };
 
 export default router;
