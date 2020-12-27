@@ -1,10 +1,10 @@
 <template>
   <div>
     <!--面包屑-->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    <breadcrumb
+      sperator="/"
+      :breadcrumbItemList="['用户管理', '用户列表']"
+    ></breadcrumb>
     <!--卡片-->
 
     <el-card shadow="always">
@@ -78,6 +78,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="mini"
+                @click="showDispatchDialog(slotScope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -162,10 +163,37 @@
         <el-button type="primary" @click="updateUser">确 定</el-button>
       </div>
     </el-dialog>
+    <!--分配权限对话框-->
+    <popup
+      title="分配角色"
+      :dialogVisible="dispatchRightDialogVisible"
+      width="45%"
+      @handleClose="handleClosePopup"
+      @save="saveRoleRight"
+      @cancel="cancelDialog"
+    >
+      <!--角色权限内容-->
+      <div>
+        <p>当前的用户:{{ userInfo.username }}</p>
+        <p>当前角色:{{ userInfo.role_name }}</p>
+        <el-select v-model="currentRight" placeholder="请选择角色">
+          <el-option
+            v-for="item in rightList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </div>
+    </popup>
   </div>
 </template>
 
 <script>
+//导入公共组件
+import Breadcrumb from "components/common/breadcrumb/Breadcrumb";
+import Popup from "components/common/popup/Popup";
 //导入网络请求
 import {
   getUsersData,
@@ -174,9 +202,12 @@ import {
   queryUser,
   updateUser,
   deleteUser,
+  queryRole,
+  dispatchUserRole,
 } from "network/users";
 //导入正则
 import { checkEmail, checkPhone } from "common/regex";
+
 export default {
   name: "UserList",
   data() {
@@ -217,6 +248,10 @@ export default {
       total: 0,
       addDialogVisible: false,
       updateDialogVisible: false,
+      dispatchRightDialogVisible: false,
+      userInfo: {},
+      rightList: [],
+      currentRight: "",
     };
   },
   created() {
@@ -271,6 +306,7 @@ export default {
           : (() => {
               this.$message.success(res.meta.msg);
               this.updateDialogVisible = false;
+              this.getUsersData(this.usersQuery);
             })();
       });
     },
@@ -300,6 +336,7 @@ export default {
         this.editForm = res.data;
       });
     },
+
     openDeleteComfirm(userInfo) {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -325,6 +362,45 @@ export default {
           });
         });
     },
+    //展示分配权限对话框
+    showDispatchDialog(userInfo) {
+      //存储当前选中的用户信息
+      this.userInfo = userInfo;
+      //请求角色列表
+      queryRole().then((res) => {
+        res.meta.status === 200
+          ? (() => {
+              this.rightList = res.data;
+            })()
+          : this.$message.error(res.meta.msg);
+      });
+      //设置为可见
+      this.dispatchRightDialogVisible = true;
+    },
+    saveRoleRight() {
+      //发出分配角色用户请求
+      dispatchUserRole(this.userInfo.id, this.currentRight).then((res) => {
+        res.meta.status === 200
+          ? (() => {
+              //关闭弹窗
+              this.dispatchRightDialogVisible = false;
+              //重新查询用户列表
+              this.getUsersData(this.usersQuery);
+            })()
+          : this.$message.error(res.meta.msg);
+      });
+    },
+    handleClosePopup() {
+      this.dispatchRightDialogVisible = false;
+      this.currentRight = "";
+    },
+    cancelDialog() {
+      this.dispatchRightDialogVisible = false;
+    },
+  },
+  components: {
+    Breadcrumb,
+    Popup,
   },
 };
 </script>

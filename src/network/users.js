@@ -66,3 +66,23 @@ export function deleteUser(paramsObject) {
     method: "delete",
   });
 }
+
+//查询角色列表信息 1.5.1. 角色列表
+export function queryRole() {
+  return request({
+    url: "roles",
+    method: "get",
+  });
+}
+
+//1.3.7. 分配用户角色
+export function dispatchUserRole(id, rid) {
+  return request({
+    url: `users/${id}/role`,
+    method: "put",
+    data: {
+      id,
+      rid,
+    },
+  });
+}
