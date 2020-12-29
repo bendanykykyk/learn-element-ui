@@ -11,7 +11,7 @@
       <p>自定义弹框内容</p>
     </slot>
     <span slot="footer" class="dialog-footer" v-if="isButtonGroupShow">
-      <el-button @click="cancel">取 消</el-button>
+      <el-button @click="handleClose">取 消</el-button>
       <el-button type="primary" @click="save">确 定</el-button>
     </span>
   </el-dialog>
@@ -52,9 +52,9 @@ export default {
     save() {
       this.$emit("save");
     },
-    cancel() {
-      this.$emit("cancel");
-    },
+    // cancel() {
+    //   this.$emit("cancel");
+    // },
   },
 };
 </script>

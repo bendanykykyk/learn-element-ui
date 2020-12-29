@@ -11,6 +11,7 @@ const Role = () => import("views/rightManager/role/Role");
 const Right = () => import("views/rightManager/right/Right");
 const GoodsCategory = () =>
   import("views/goodsManager/goodsCategory/GoodsCategory");
+const GoodsParams = () => import("views/goodsManager/goodsParams/GoodsParams");
 const routes = [
   {
     path: "/",
@@ -31,6 +32,7 @@ const routes = [
       { path: "/roles", name: Role, component: Role },
       { path: "/rights", name: Right, component: Right },
       { path: "/categories", name: GoodsCategory, component: GoodsCategory },
+      { path: "/params", name: GoodsParams, component: GoodsParams },
     ],
   },
 ];
