@@ -13,3 +13,14 @@ body,html,#app {
     margin-top: 10px;
     margin-bottom:15px
 }
+.el-steps{
+    margin: 15px 0px;
+}
+
+.el-step__title {
+    font-size: 14px !important;
+  }
+  .ql-editor {
+    min-height: 300px !important;
+  }
+

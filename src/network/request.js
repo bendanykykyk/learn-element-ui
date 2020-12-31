@@ -4,8 +4,8 @@ import axios from "axios";
 
 export function request(config) {
   const instance = new axios.create({
-    // baseURL: "https://www.liulongbin.top:8888/api/private/v1/",
-    baseURL: "http://timemeetyou.com:8889/api/private/v1",
+    baseURL: "https://www.liulongbin.top:8888/api/private/v1/",
+    // baseURL: "http://timemeetyou.com:8889/api/private/v1",
     timeout: 5000,
   });
 

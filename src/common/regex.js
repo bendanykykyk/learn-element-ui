@@ -15,3 +15,10 @@ export const checkPhone = (rule, value, cb) => {
 
   regPhone.test(value) ? cb() : cb(new Error("请输入正确的手机号"));
 };
+
+//验证手机号
+// export const checkPhone = (rule, value, cb) => {
+//   const regPhone = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+
+//   regPhone.test(value) ? cb() : cb(new Error("请输入正确的手机号"));
+// };
