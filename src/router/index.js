@@ -14,6 +14,7 @@ const GoodsCategory = () =>
 const GoodsParams = () => import("views/goodsManager/goodsParams/GoodsParams");
 const GoodsList = () => import("views/goodsManager/goodsList/GoodsList");
 const AddGoods = () => import("views/goodsManager/goodsList/AddGoods");
+const OrderList = () => import("views/order/orderList/OrderList");
 const routes = [
   {
     path: "/",
@@ -37,6 +38,7 @@ const routes = [
       { path: "/params", name: GoodsParams, component: GoodsParams },
       { path: "/goods", name: GoodsList, component: GoodsList },
       { path: "/goods/addGoods", name: AddGoods, component: AddGoods },
+      { path: "/orders", name: OrderList, component: OrderList },
     ],
   },
 ];
